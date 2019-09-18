@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name = "signUpScreenBackColor">#D73D3939</color>
+    <color name="login_button_back">#883AEC3F</color>
+    <color name="signup_cardView_back">#E0DEDE</color>
 </resources>
