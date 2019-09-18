@@ -13,7 +13,6 @@ public class AppController extends Application {
     private static AppController mInstance;
     private AirporterPreferenceManager mPreferenceManager;
 
-
     @Override
     public void onCreate() {
         super.onCreate();

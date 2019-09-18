@@ -16,10 +16,20 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 public class ApiRequests {
+    private static ApiRequests mInstance;
 
-    public static void authenticateLogin(String email, String encryptedPassword, VolleySeverRequest.VolleyResponseCallback responseCallback){
+    private ApiRequests() {
+    }
 
-        String userId ="";
+    public static synchronized ApiRequests getInstance(){
+        if(mInstance == null)
+            return mInstance = new ApiRequests();
+        else
+            return mInstance;
+    }
+
+    public void authenticateLogin(String email, String encryptedPassword, VolleySeverRequest.VolleyResponseCallback responseCallback){
+
         String url = CONSTANTS.IpAddress +"authenticate_login.php";
         HashMap<String, String> params = new HashMap();
         params.put("username", email );

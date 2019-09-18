@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.airporter.AppController;
 import com.example.airporter.R;
+import com.example.airporter.helper.ApiRequests;
 
 public class MainActivity extends AppCompatActivity implements MainActivityPresenter.View {
 
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
             progressBar.setVisibility(View.VISIBLE);
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
-            mainActivityPresenter.authenticateLogin(email, password);
+            mainActivityPresenter.authenticateLogin(email, password, ApiRequests.getInstance());
         }
     }
 }

@@ -5,6 +5,8 @@ import android.util.Log;
 import android.util.Patterns;
 import android.widget.Toast;
 
+import androidx.core.util.PatternsCompat;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -31,13 +33,17 @@ public class MainActivityPresenter {
     private boolean isPasswordValid = false;
     public static final String TAG = "MainActivityPresenter";
 
-    public void authenticateLogin(String email, String password){
+    public MainActivityPresenter(View mView) {
+        this.mView = mView;
+    }
+
+    public void authenticateLogin(String email, String password, ApiRequests apiRequestObject){
         String encryptedPassword = MyHash.sha256(password);
-        ApiRequests.authenticateLogin(email, encryptedPassword, new AuthenticateLoginCallbackListener(mView));
+        apiRequestObject.authenticateLogin(email, encryptedPassword, new AuthenticateLoginCallbackListener(mView));
     }
 
     public void checkEmailValid(String email) {
-        if (Patterns.EMAIL_ADDRESS.matcher(email).matches() && !email.isEmpty())
+        if (PatternsCompat.EMAIL_ADDRESS.matcher(email).matches() && !email.isEmpty())
             isEmailValid = true;
         else
             isEmailValid = false;
@@ -54,9 +60,6 @@ public class MainActivityPresenter {
         mView.setLoginButtonState(isEmailValid, isPasswordValid);
     }
 
-    public MainActivityPresenter(View mView) {
-        this.mView = mView;
-    }
 
     public interface View {
         void setLoginButtonState(boolean isEmailValid, boolean isPasswordValid);
