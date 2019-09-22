@@ -4,5 +4,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="yes_value">1</string>
-    <string name="failedLogin">Incorrect login credentials</string>
+    <string name="failed_login">Incorrect login credentials</string>
+    <string name="invalid_email_field">Invalid Email</string>
+    <string name="invalid_password_field">Invalid Password</string>
 </resources>

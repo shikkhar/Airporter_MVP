@@ -42,27 +42,27 @@ public class MainActivityPresenter {
         apiRequestObject.authenticateLogin(email, encryptedPassword, new AuthenticateLoginCallbackListener(mView));
     }
 
-    public void checkEmailValid(String email) {
+    public void checkEmailValid(String email, int viewId) {
         if (PatternsCompat.EMAIL_ADDRESS.matcher(email).matches() && !email.isEmpty())
             isEmailValid = true;
         else
             isEmailValid = false;
 
-        mView.setLoginButtonState(isEmailValid, isPasswordValid);
+        mView.setLoginButtonState(isEmailValid, isPasswordValid, viewId);
     }
 
-    public void checkPasswordValid(String password) {
+    public void checkPasswordValid(String password, int viewId) {
         if (!password.isEmpty())
             isPasswordValid = true;
         else
             isPasswordValid = false;
 
-        mView.setLoginButtonState(isEmailValid, isPasswordValid);
+        mView.setLoginButtonState(isEmailValid, isPasswordValid, viewId);
     }
 
 
     public interface View {
-        void setLoginButtonState(boolean isEmailValid, boolean isPasswordValid);
+        void setLoginButtonState(boolean isEmailValid, boolean isPasswordValid, int viewId);
         void onLoginUpdate(boolean isLoginSuccessful);
     }
 

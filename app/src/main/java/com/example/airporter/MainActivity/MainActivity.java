@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
@@ -19,6 +20,7 @@ import com.example.airporter.helper.ApiRequests;
 
 public class MainActivity extends AppCompatActivity implements MainActivityPresenter.View {
 
+    //decalre the member
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button loginButton;
@@ -30,8 +32,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //set the layout for the activity
         setContentView(R.layout.activity_main);
 
+        /*create an object of the presenter class
+        all non ui related actions are delgated to this class*/
         mainActivityPresenter = new MainActivityPresenter(this);
 
         //binding the views
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         loginButton = this.findViewById(R.id.loginButtonId);
         progressBar = this.findViewById(R.id.signinProgressBarId);
 
+        //bring focus to the email field
         emailEditText.requestFocus();
 
         //set text change listener
@@ -54,34 +60,21 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         loginButton.setOnClickListener(new OnLoginButtonClickListener());
     }
 
-
-    @Override
-    public void setLoginButtonState(boolean isEmailValid, boolean isPasswordValid) {
-        if (isEmailValid && isPasswordValid)
-            loginButton.setEnabled(true);
-        else {
-            if (!isEmailValid)
-                emailEditText.setError("Invalid Email");
-            if (!isPasswordValid)
-                passwordEditText.setError("Invalid Password");
+    private class OnLoginButtonClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            //display an invisible overlay dialog to prevent user interaction and pressing back
+            if (mOverlayDialog == null)
+                mOverlayDialog = new Dialog(MainActivity.this, android.R.style.Theme_Panel);
+            mOverlayDialog.setCancelable(false);
+            mOverlayDialog.show();
+            progressBar.setVisibility(View.VISIBLE);
+            String email = emailEditText.getText().toString().trim();
+            String password = passwordEditText.getText().toString().trim();
+            mainActivityPresenter.authenticateLogin(email, password, ApiRequests.getInstance());
         }
     }
 
-    @Override
-    public void onLoginUpdate(boolean isLoginSuccessful) {
-        if(isLoginSuccessful){
-            String displayMessage = "Success";
-            Toast.makeText(AppController.getContext(), displayMessage, Toast.LENGTH_SHORT).show();
-        }
-
-        else if(!isLoginSuccessful){
-            String displayMessage = AppController.getContext().getString(R.string.failedLogin);
-            Toast.makeText(AppController.getContext(), displayMessage, Toast.LENGTH_SHORT).show();
-        }
-
-        mOverlayDialog.dismiss();
-        progressBar.setVisibility(View.GONE);
-    }
 
     private class EmailTextWatcher implements TextWatcher {
         @Override
@@ -96,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
 
         @Override
         public void afterTextChanged(Editable s) {
-            mainActivityPresenter.checkEmailValid(s.toString().trim());
+            mainActivityPresenter.checkEmailValid(s.toString().trim(), R.id.signUpEmaileditTextId);
         }
 
     }
@@ -104,8 +97,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     private class OnEmailFocusChangeListener implements View.OnFocusChangeListener {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            String email = emailEditText.getText().toString().trim();
-            mainActivityPresenter.checkEmailValid(email);
+            if(!hasFocus) {
+                String email = emailEditText.getText().toString().trim();
+                mainActivityPresenter.checkEmailValid(email, v.getId());
+            }
         }
     }
 
@@ -122,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
 
         @Override
         public void afterTextChanged(Editable s) {
-            mainActivityPresenter.checkPasswordValid(s.toString().trim());
+            mainActivityPresenter.checkPasswordValid(s.toString().trim(), R.id.signUpPasswordEditTextId);
         }
 
     }
@@ -130,23 +125,51 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     private class OnPasswordFocusChangeListener implements View.OnFocusChangeListener {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            String password = passwordEditText.getText().toString().trim();
-            mainActivityPresenter.checkPasswordValid(password);
+            if(!hasFocus) {
+                String password = passwordEditText.getText().toString().trim();
+                mainActivityPresenter.checkPasswordValid(password, v.getId());
+            }
         }
     }
 
-    private  class OnLoginButtonClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            //display an invisible overlay dialog to prevent user interaction and pressing back
-            if(mOverlayDialog == null)
-                mOverlayDialog = new Dialog(MainActivity.this, android.R.style.Theme_Panel);
-            mOverlayDialog.setCancelable(false);
-            mOverlayDialog.show();
-            progressBar.setVisibility(View.VISIBLE);
-            String email = emailEditText.getText().toString().trim();
-            String password = passwordEditText.getText().toString().trim();
-            mainActivityPresenter.authenticateLogin(email, password, ApiRequests.getInstance());
+    @Override
+    public void setLoginButtonState(boolean isEmailValid, boolean isPasswordValid, int viewId) {
+
+        if (isEmailValid && isPasswordValid)
+            loginButton.setEnabled(true);
+        else {
+            setErrorMessage(isEmailValid, isPasswordValid, viewId);
+            loginButton.setEnabled(false);
         }
+    }
+
+    private void setErrorMessage(boolean isEmailValid, boolean isPasswordValid, int viewId) {
+        switch (viewId) {
+            case R.id.signUpEmaileditTextId: {
+                if (!isEmailValid)
+                    emailEditText.setError(getString(R.string.invalid_email_field));
+                break;
+            }
+
+            case R.id.signUpPasswordEditTextId: {
+                if (!isPasswordValid)
+                    passwordEditText.setError(getString(R.string.invalid_password_field));
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onLoginUpdate(boolean isLoginSuccessful) {
+        if (isLoginSuccessful) {
+            String displayMessage = "Success";
+            Toast.makeText(AppController.getContext(), displayMessage, Toast.LENGTH_SHORT).show();
+        } else if (!isLoginSuccessful) {
+            String displayMessage = AppController.getContext().getString(R.string.failed_login);
+            Toast.makeText(AppController.getContext(), displayMessage, Toast.LENGTH_SHORT).show();
+        }
+
+        mOverlayDialog.dismiss();
+        progressBar.setVisibility(View.GONE);
     }
 }
