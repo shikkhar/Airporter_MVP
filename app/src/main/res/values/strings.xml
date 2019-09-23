@@ -7,4 +7,22 @@
     <string name="failed_login">Incorrect login credentials</string>
     <string name="invalid_email_field">Invalid Email</string>
     <string name="invalid_password_field">Invalid Password</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="homeMenuItem">Home</string>
+    <string name="orderMenuItem">Orders</string>
+    <string name="offersMenuItemID">Offers</string>
+    <string name="messageMenuItem">Messages</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="make_money">Make Money</string>
+    <string name="shop_globally">Shop Globally</string>
+    <string name="tab_shop">Shop</string>
+    <string name="tab_earn">Earn</string>
+    <string name="label_deliver_to">Deliver to</string>
+    <string name="label_deliver_from">From</string>
+    <string name="label_before">Before</string>
+    <string name="product_price">Price:</string>
+    <string name="submit_offer">Submit Offer</string>
+    <string name="reward">Reward</string>
 </resources>

@@ -3,6 +3,7 @@ package com.example.airporter.MainActivity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.airporter.AppController;
+import com.example.airporter.Menu.MenuActivity;
 import com.example.airporter.R;
 import com.example.airporter.helper.ApiRequests;
 
@@ -161,15 +163,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
 
     @Override
     public void onLoginUpdate(boolean isLoginSuccessful) {
+
+        mOverlayDialog.dismiss();
+        progressBar.setVisibility(View.GONE);
+
         if (isLoginSuccessful) {
-            String displayMessage = "Success";
-            Toast.makeText(AppController.getContext(), displayMessage, Toast.LENGTH_SHORT).show();
+            Intent menuIntent = new Intent(MainActivity.this, MenuActivity.class);
+            startActivity(menuIntent);
         } else if (!isLoginSuccessful) {
             String displayMessage = AppController.getContext().getString(R.string.failed_login);
             Toast.makeText(AppController.getContext(), displayMessage, Toast.LENGTH_SHORT).show();
         }
 
-        mOverlayDialog.dismiss();
-        progressBar.setVisibility(View.GONE);
     }
 }

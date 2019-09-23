@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeMenuItemID"
+        android:icon="@drawable/twotone_home_black_48"
+        android:title="@string/homeMenuItem" />
+    <item
+        android:id="@+id/orderMenuItemID"
+        android:icon="@drawable/twotone_shopping_cart_black_48"
+        android:title="@string/orderMenuItem" />
+    <item
+        android:id="@+id/offersMenuItemID"
+        android:icon="@drawable/twotone_supervisor_account_black_48"
+        android:title="@string/offersMenuItemID" />
+    <item
+        android:id="@+id/messageMenuItemID"
+        android:icon="@drawable/twotone_question_answer_black_48"
+        android:title="@string/messageMenuItem" />
+
+</menu>

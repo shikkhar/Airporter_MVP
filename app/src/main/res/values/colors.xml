@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#00AE65</color>
+    <color name="colorPrimaryDark">#117640</color>
+    <color name="colorAccent">#D82B1B</color>
+    <color name="backColor">#26117640</color>
     <color name = "signUpScreenBackColor">#D73D3939</color>
     <color name="login_button_back">#883AEC3F</color>
     <color name="signup_cardView_back">#E0DEDE</color>
