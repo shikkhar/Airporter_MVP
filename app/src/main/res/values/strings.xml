@@ -25,4 +25,7 @@
     <string name="product_price">Price:</string>
     <string name="submit_offer">Submit Offer</string>
     <string name="reward">Reward</string>
+    <string name="error_email_empty">Email field cannot be left empty</string>
+    <string name="error_email_invalid">Invalid Email</string>
+    <string name="error_password_empty">Password field cannot be left empty</string>
 </resources>

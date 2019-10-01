@@ -1,11 +1,12 @@
 package com.example.airporter.Menu.HomeFragment.EarnMoneyFragment;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
-import com.example.airporter.AppController;
 import com.example.airporter.data.Order;
-import com.example.airporter.helper.ApiRequests;
+import com.example.airporter.helper.ApiRequestManager;
+import com.example.airporter.helper.CONSTANTS;
 import com.example.airporter.helper.VolleySeverRequest;
 
 import org.json.JSONArray;
@@ -22,14 +23,21 @@ import java.util.List;
 
 public class EarnMoneyPresenter implements EarnMoneyContract {
     private EarnMoneyView mView;
+    private ApiRequestManager apiRequestManagerObject;
 
-    public EarnMoneyPresenter(EarnMoneyView mView) {
+    public EarnMoneyPresenter(EarnMoneyView mView, ApiRequestManager apiRequestManagerObject) {
         this.mView = mView;
+        this.apiRequestManagerObject = apiRequestManagerObject;
     }
 
     @Override
-    public void fetchOrderList(ApiRequests apiRequestsObject) {
-        apiRequestsObject.fetchOrderList(new OrderListFetchedCallback(mView));
+    public void fetchOrderList() {
+        apiRequestManagerObject.fetchOrderList(new OrderListFetchedCallback(mView), CONSTANTS.NetworkRequestTags.FETCH_ORDER_LIST);
+    }
+
+    @Override
+    public void fetchMoreOrders(String lastOrderIdFetched) {
+        apiRequestManagerObject.fetchMoreOrders(lastOrderIdFetched, new OrderListFetchedCallback(mView), CONSTANTS.NetworkRequestTags.FETCH_ORDER_LIST);
     }
 
     private static class OrderListFetchedCallback implements VolleySeverRequest.VolleyResponseCallback {
@@ -45,9 +53,8 @@ public class EarnMoneyPresenter implements EarnMoneyContract {
             try {
                 parseJSONResult(response);
                 EarnMoneyView view = mView.get();
-                if(view != null){
+                if(view != null)
                     view.onOrderListFetched(orderList);
-                }
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (ParseException e) {
@@ -65,22 +72,23 @@ public class EarnMoneyPresenter implements EarnMoneyContract {
                 String deliverTo = orderArray.getJSONObject(x).getString("deliverTo");
                 String deliverBefore = orderArray.getJSONObject(x).getString("deliverBefore");
                 String price = orderArray.getJSONObject(x).getString("price");
-                String productImagePath = "http://admin.airporterinc.com" + orderArray.getJSONObject(x).getString("imagePath");
+                String productImagePath = "http://admin.airporterinc.com" + orderArray.getJSONObject(x).getString("productImagePath");
                 String orderDateTime = orderArray.getJSONObject(x).getString("orderDateTime");
+                String shopperImagePath = "http://airporterinc.com" +  orderArray.getJSONObject(x).getString("shopperImagePath");
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date parsedDate = dateFormat.parse(orderDateTime);
                 Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
 
                 //lastOrderIdDisplayed = orderId;
-                Order order = new Order(orderId, shopperName, productName, deliverFrom, deliverTo, deliverBefore, price, productImagePath , orderDateTime);
+                Order order = new Order(orderId, shopperName, productName, deliverFrom, deliverTo, deliverBefore, price, productImagePath , orderDateTime, shopperImagePath);
                 orderList.add(order);
             }
         }
 
         @Override
         public void onFail(VolleyError error) {
-            Toast.makeText(AppController.getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(appContext, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

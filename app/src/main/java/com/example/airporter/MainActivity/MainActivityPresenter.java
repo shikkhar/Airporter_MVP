@@ -1,20 +1,13 @@
 package com.example.airporter.MainActivity;
 
-import android.provider.ContactsContract;
 import android.util.Log;
-import android.util.Patterns;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.util.PatternsCompat;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.airporter.AppController;
-import com.example.airporter.R;
-import com.example.airporter.helper.ApiRequests;
+import com.example.airporter.helper.ApiRequestManager;
 import com.example.airporter.helper.CONSTANTS;
 import com.example.airporter.helper.MyHash;
 import com.example.airporter.helper.VolleySeverRequest;
@@ -24,8 +17,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.regex.Pattern;
 
 public class MainActivityPresenter {
     private View mView;
@@ -37,36 +28,51 @@ public class MainActivityPresenter {
         this.mView = mView;
     }
 
-    public void authenticateLogin(String email, String password, ApiRequests apiRequestObject){
-        String encryptedPassword = MyHash.sha256(password);
-        apiRequestObject.authenticateLogin(email, encryptedPassword, new AuthenticateLoginCallbackListener(mView));
+    public void onDestroy(){
+        AppController.getInstance().getRequestQueue().cancelAll(CONSTANTS.NetworkRequestTags.LOGIN_WITH_EMAIL);
+        mView = null;
     }
-
-    public void checkEmailValid(String email, int viewId) {
-        if (PatternsCompat.EMAIL_ADDRESS.matcher(email).matches() && !email.isEmpty())
-            isEmailValid = true;
-        else
-            isEmailValid = false;
-
-        mView.setLoginButtonState(isEmailValid, isPasswordValid, viewId);
-    }
-
-    public void checkPasswordValid(String password, int viewId) {
-        if (!password.isEmpty())
-            isPasswordValid = true;
-        else
-            isPasswordValid = false;
-
-        mView.setLoginButtonState(isEmailValid, isPasswordValid, viewId);
-    }
-
 
     public interface View {
-        void setLoginButtonState(boolean isEmailValid, boolean isPasswordValid, int viewId);
-        void onLoginUpdate(boolean isLoginSuccessful);
+        void setLoginButtonState(boolean isEmailValid, boolean isPasswordValid);
+
+        void setEmailEditTextError(String error);
+
+        void setPasswordEditTextError(String error);
+
+        void onLoginUpdate(boolean isLoginSuccessful, String userId);
     }
 
-    private static class AuthenticateLoginCallbackListener implements VolleySeverRequest.VolleyResponseCallback{
+
+    public void checkEmailValid(@NonNull String email) {
+        if (email.isEmpty()) {
+            mView.setEmailEditTextError(CONSTANTS.DisplayMessages.ERROR_EMAIL_EMPTY);
+            isEmailValid = false;
+        } else if (!PatternsCompat.EMAIL_ADDRESS.matcher(email).matches()) {
+            mView.setEmailEditTextError(CONSTANTS.DisplayMessages.ERROR_EMAIL_INVALID);
+            isEmailValid = false;
+        } else
+            isEmailValid = true;
+
+        mView.setLoginButtonState(isEmailValid, isPasswordValid);
+    }
+
+    public void checkPasswordValid(@NonNull String password) {
+        if (password.isEmpty()) {
+            isPasswordValid = false;
+            mView.setPasswordEditTextError(CONSTANTS.DisplayMessages.ERROR_PASSWORD_EMPTY);
+        } else
+            isPasswordValid = true;
+
+        mView.setLoginButtonState(isEmailValid, isPasswordValid);
+    }
+
+    public void authenticateLogin(String email, String password, ApiRequestManager apiRequestObject) {
+        String encryptedPassword = MyHash.sha256(password);
+        apiRequestObject.authenticateLogin(email, encryptedPassword, new AuthenticateLoginCallbackListener(mView), CONSTANTS.NetworkRequestTags.LOGIN_WITH_EMAIL);
+    }
+
+    private static class AuthenticateLoginCallbackListener implements VolleySeverRequest.VolleyResponseCallback {
         private WeakReference<View> mView;
 
         public AuthenticateLoginCallbackListener(View mView) {
@@ -79,18 +85,16 @@ public class MainActivityPresenter {
                 String result = response.getString("success");
                 View mainActivityView = mView.get();
 
-                if (result.equals(AppController.getContext().getString(R.string.yes_value))) {
-                    JSONArray data = response.getJSONArray("data");
-                    String userId = data.getJSONObject(0).getString("userId");
-                    AppController.getInstance().getPreferenceManager().storeUserId(userId);
-                    if(mainActivityView != null)
-                        mainActivityView.onLoginUpdate(true);
-                } else {
-                    if(mainActivityView != null)
-                        mainActivityView.onLoginUpdate(false);
+                if (mainActivityView != null) {
+                    if (result.equals(CONSTANTS.NetworRequestResponse.SUCCESS)) {
+                        JSONArray data = response.getJSONArray("data");
+                        String userId = data.getJSONObject(0).getString("userId");
+                        mainActivityView.onLoginUpdate(true, userId);
+                    } else
+                        mainActivityView.onLoginUpdate(false,null);
                 }
-            }
-            catch (JSONException e) {
+
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
@@ -99,8 +103,8 @@ public class MainActivityPresenter {
         public void onFail(VolleyError error) {
             Log.d(TAG, "onFail: " + error.getMessage());
             View mainActivityView = mView.get();
-            if(mainActivityView != null)
-                mainActivityView.onLoginUpdate(true);
+            if (mainActivityView != null)
+                mainActivityView.onLoginUpdate(false, null);
         }
     }
 }

@@ -5,8 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".Menu.HomeFragment.EarnMoneyFragment.EarnMoneyFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/earnMoneyRecyclerId"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshOrderListId"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/earnMoneyRecyclerId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </FrameLayout>

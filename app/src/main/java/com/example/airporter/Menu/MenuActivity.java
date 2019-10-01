@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.airporter.Menu.HomeFragment.HomeFragment;
+import com.example.airporter.Menu.HomeFragment.ShopFragment.ShopFragment;
 import com.example.airporter.R;
 import com.google.android.material.bottomnavigation.BottomNavigationMenu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -49,10 +50,10 @@ public class MenuActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.orderMenuItemID:
-                /*fragment = fm.findFragmentByTag(fragmentListTags.ORDERS.name());
-                if(fragment == null)
-                    fragment = new HomeFragment();
-                setFragment(fragment);*/
+                    fragment = fm.findFragmentByTag(fragmentListTags.ORDERS.name());
+                    if (fragment == null)
+                        fragment = new ShopFragment();
+                    setFragment(fragment,fragmentListTags.ORDERS.name());
                     return true;
 
                 case R.id.offersMenuItemID:

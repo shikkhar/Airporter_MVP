@@ -23,10 +23,6 @@ public class AppController extends Application {
         return mInstance;
     }
 
-    public static Context getContext(){
-
-        return mInstance.getApplicationContext();
-    }
     public synchronized RequestQueue getRequestQueue() {
         if (mRequestQueue == null)
             return mRequestQueue = Volley.newRequestQueue(getApplicationContext());
@@ -36,7 +32,7 @@ public class AppController extends Application {
 
     public synchronized AirporterPreferenceManager getPreferenceManager(){
         if(mPreferenceManager == null)
-            return mPreferenceManager = new AirporterPreferenceManager();
+            return mPreferenceManager = new AirporterPreferenceManager(mInstance.getApplicationContext());
         else
             return mPreferenceManager;
     }

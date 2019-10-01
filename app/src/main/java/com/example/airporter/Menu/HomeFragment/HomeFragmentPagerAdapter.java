@@ -5,11 +5,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
 //TODO: Try switching super class to fragmentStatePagerAdapter for better memory utilization
-public class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
+public class HomeFragmentPagerAdapter extends FragmentPagerAdapter{
 
     private List<Fragment> fragmentList;
     private List<String> tabTitles;

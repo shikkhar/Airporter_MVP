@@ -17,7 +17,7 @@ public class VolleySeverRequest {
         this.volleyResponseCallback = volleyResponseCallback;
     }
 
-    public void makePostRequest(String url, HashMap params){
+    public void makePostRequest(String url, HashMap params, String requestTag){
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
                 url,
                 new JSONObject(params),
@@ -34,7 +34,12 @@ public class VolleySeverRequest {
                     }
                 });
 
+        jsonObjectRequest.setTag(requestTag);
         AppController.getInstance().getRequestQueue().add(jsonObjectRequest);
+    }
+
+    public void cancelRequest(Object tag){
+        AppController.getInstance().getRequestQueue().cancelAll(tag);
     }
 
     public interface VolleyResponseCallback{

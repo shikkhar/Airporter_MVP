@@ -9,11 +9,12 @@ public class Order {
     private String deliverTo;
     private String deliverBefore;
     private String price;
-    private String productImagePath ;
+    private String productImagePath;
     private String orderDateTime;
+    private String shopperImagePath;
 
 
-    public Order(String orderId, String shopperName, String productName, String deliverFrom, String deliverTo, String deliverBefore, String price, String orderImage, String orderDateTime) {
+    public Order(String orderId, String shopperName, String productName, String deliverFrom, String deliverTo, String deliverBefore, String price, String orderImage, String orderDateTime, String shopperImagePath) {
         this.orderId = orderId;
         this.shopperName = shopperName;
         this.productName = productName;
@@ -23,9 +24,17 @@ public class Order {
         this.price = price;
         this.productImagePath  = orderImage;
         this.orderDateTime = orderDateTime;
+        this.shopperImagePath = shopperImagePath;
 
     }
 
+    public String getShopperImagePath() {
+        return shopperImagePath;
+    }
+
+    public void setShopperImagePath(String shopperImagePath) {
+        this.shopperImagePath = shopperImagePath;
+    }
 
 //    public int getImageResourceId(Context context)
 //    {

@@ -10,16 +10,16 @@ public class AirporterPreferenceManager {
     private AirporterPreferenceManager mSharedPrefernceManager;
     private SharedPreferences mSharedPrefs;
     private SharedPreferences.Editor mEditor;
-    private Context mContext;
+    private Context appContext;
     private static final int PRIVATE_MODE = 0;
     private static final String PREF_NAME = "myPrefs";
     private static final String KEY_USER_ID = "user_id";
 
 
-    public AirporterPreferenceManager() {
-        mSharedPrefs = AppController.getContext().getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+    public AirporterPreferenceManager(Context appContext) {
+        this.appContext = appContext;
+        mSharedPrefs = appContext.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         mEditor = mSharedPrefs.edit();
-        mContext = AppController.getContext();
     }
 
     public void storeUserId(String userId){

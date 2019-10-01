@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +16,7 @@ import android.widget.Toast;
 import com.example.airporter.AppController;
 import com.example.airporter.Menu.MenuActivity;
 import com.example.airporter.R;
-import com.example.airporter.helper.ApiRequests;
+import com.example.airporter.helper.ApiRequestManager;
 
 public class MainActivity extends AppCompatActivity implements MainActivityPresenter.View {
 
@@ -28,8 +26,19 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     private Button loginButton;
     private Dialog mOverlayDialog;
     private ProgressBar progressBar;
+    /*create an object of the presenter class
+    all non ui related actions are delgated to this class*/
     private MainActivityPresenter mainActivityPresenter;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         setContentView(R.layout.activity_main);
 
         /*create an object of the presenter class
-        all non ui related actions are delgated to this class*/
+        all non ui related actions are delegated to this class*/
         mainActivityPresenter = new MainActivityPresenter(this);
 
         //binding the views
@@ -73,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
             progressBar.setVisibility(View.VISIBLE);
             String email = emailEditText.getText().toString().trim();
             String password = passwordEditText.getText().toString().trim();
-            mainActivityPresenter.authenticateLogin(email, password, ApiRequests.getInstance());
+            mainActivityPresenter.authenticateLogin(email, password, ApiRequestManager.getInstance());
         }
     }
 
@@ -91,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
 
         @Override
         public void afterTextChanged(Editable s) {
-            mainActivityPresenter.checkEmailValid(s.toString().trim(), R.id.signUpEmaileditTextId);
+            mainActivityPresenter.checkEmailValid(s.toString().trim());
         }
 
     }
@@ -99,9 +108,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     private class OnEmailFocusChangeListener implements View.OnFocusChangeListener {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            if(!hasFocus) {
+            if (!hasFocus) {
                 String email = emailEditText.getText().toString().trim();
-                mainActivityPresenter.checkEmailValid(email, v.getId());
+                mainActivityPresenter.checkEmailValid(email);
             }
         }
     }
@@ -119,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
 
         @Override
         public void afterTextChanged(Editable s) {
-            mainActivityPresenter.checkPasswordValid(s.toString().trim(), R.id.signUpPasswordEditTextId);
+            mainActivityPresenter.checkPasswordValid(s.toString().trim());
         }
 
     }
@@ -127,53 +136,64 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     private class OnPasswordFocusChangeListener implements View.OnFocusChangeListener {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
-            if(!hasFocus) {
+            if (!hasFocus) {
                 String password = passwordEditText.getText().toString().trim();
-                mainActivityPresenter.checkPasswordValid(password, v.getId());
+                mainActivityPresenter.checkPasswordValid(password);
             }
         }
     }
 
     @Override
-    public void setLoginButtonState(boolean isEmailValid, boolean isPasswordValid, int viewId) {
+    public void setEmailEditTextError(String error) {
+        emailEditText.setError(error);
+    }
+
+    @Override
+    public void setPasswordEditTextError(String error) {
+        passwordEditText.setError(error);
+    }
+
+    @Override
+    public void setLoginButtonState(boolean isEmailValid, boolean isPasswordValid) {
 
         if (isEmailValid && isPasswordValid)
             loginButton.setEnabled(true);
-        else {
-            setErrorMessage(isEmailValid, isPasswordValid, viewId);
+        else
             loginButton.setEnabled(false);
-        }
     }
 
-    private void setErrorMessage(boolean isEmailValid, boolean isPasswordValid, int viewId) {
-        switch (viewId) {
-            case R.id.signUpEmaileditTextId: {
-                if (!isEmailValid)
-                    emailEditText.setError(getString(R.string.invalid_email_field));
-                break;
-            }
-
-            case R.id.signUpPasswordEditTextId: {
-                if (!isPasswordValid)
-                    passwordEditText.setError(getString(R.string.invalid_password_field));
-                break;
-            }
-        }
-    }
 
     @Override
-    public void onLoginUpdate(boolean isLoginSuccessful) {
+    public void onLoginUpdate(boolean isLoginSuccessful, String userId) {
 
         mOverlayDialog.dismiss();
         progressBar.setVisibility(View.GONE);
 
-        if (isLoginSuccessful) {
+        if (isLoginSuccessful && userId != null) {
+            AppController.getInstance().getPreferenceManager().storeUserId(userId);
             Intent menuIntent = new Intent(MainActivity.this, MenuActivity.class);
             startActivity(menuIntent);
-        } else if (!isLoginSuccessful) {
-            String displayMessage = AppController.getContext().getString(R.string.failed_login);
-            Toast.makeText(AppController.getContext(), displayMessage, Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            String displayMessage = getApplicationContext().getString(R.string.failed_login);
+            Toast.makeText(getApplicationContext(), displayMessage, Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mainActivityPresenter.onDestroy();
     }
 }
