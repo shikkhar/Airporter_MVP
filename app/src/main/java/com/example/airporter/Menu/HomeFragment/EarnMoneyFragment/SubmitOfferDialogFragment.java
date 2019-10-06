@@ -22,9 +22,11 @@ import java.lang.ref.WeakReference;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SubmitOfferDialogFragment extends DialogFragment{
+public class SubmitOfferDialogFragment extends DialogFragment {
+    int position = -1;
+    double offerPrice = 0;
 
-private SubmitOfferDialogCallback submitOfferDialogCallback;
+    private SubmitOfferDialogCallback submitOfferDialogCallback;
 
     public SubmitOfferDialogFragment() {
         // Required empty public constructor
@@ -37,49 +39,45 @@ private SubmitOfferDialogCallback submitOfferDialogCallback;
         String reward = "0";
 
         Bundle bundle = getArguments();
-        if(bundle.containsKey("price") && bundle.containsKey("reward")) {
-             price = bundle.getString("price");
-             reward = bundle.getString("reward");
+        if (bundle.containsKey("price") && bundle.containsKey("reward") && bundle.containsKey("position")) {
+            position = bundle.getInt("position");
+            price = bundle.getString("price");
+            reward = bundle.getString("reward");
         }
 
-        double offerPrice = Double.valueOf(price) + Double.valueOf(reward);
+        offerPrice = Double.valueOf(price) + Double.valueOf(reward);
 
         onAttachToParentFragment(getParentFragment());
+
         return new AlertDialog.Builder(getContext())
                 .setIcon(R.drawable.ic_launcher_background)
                 .setTitle("Title")
                 .setMessage("Submit Offer for " + String.valueOf(offerPrice))
-                .setPositiveButton("Yes", new OnSubmitOfferClickListener(submitOfferDialogCallback))
-                .setNegativeButton("No", new OnSubmitOfferClickListener(submitOfferDialogCallback))
+                .setPositiveButton("Yes", new OnSubmitOfferClickListener())
+                .setNegativeButton("No", new OnSubmitOfferClickListener())
                 .create();
     }
 
     private void onAttachToParentFragment(Fragment parentFragment) {
         try {
             submitOfferDialogCallback = (SubmitOfferDialogCallback) parentFragment;
-        }
-        catch (ClassCastException e){
+        } catch (ClassCastException e) {
             throw new ClassCastException(
                     parentFragment.toString() + " must implement SubmitOfferDialogCallback");
         }
     }
 
-    private static class OnSubmitOfferClickListener implements DialogInterface.OnClickListener{
-        private WeakReference<SubmitOfferDialogCallback> submitOfferDialogCallback;
-
-        public OnSubmitOfferClickListener(SubmitOfferDialogCallback submitOfferDialogCallback) {
-            this.submitOfferDialogCallback = new WeakReference<>(submitOfferDialogCallback);
-        }
+    private class OnSubmitOfferClickListener implements DialogInterface.OnClickListener {
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            SubmitOfferDialogCallback callback = submitOfferDialogCallback.get();
-            if(callback != null)
-                callback.onSubmitDialogButtonClick(which);
+            String finalOfferPrice = String.valueOf(offerPrice);
+            submitOfferDialogCallback.onSubmitDialogButtonClick(which, position, finalOfferPrice);
         }
     }
-    public interface SubmitOfferDialogCallback{
-        void onSubmitDialogButtonClick(int whichButton);
+
+    public interface SubmitOfferDialogCallback {
+        void onSubmitDialogButtonClick(int whichButton, int position, String offerPrice);
     }
 
 }

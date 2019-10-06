@@ -1,6 +1,8 @@
 package com.example.airporter.Menu.HomeFragment.EarnMoneyFragment;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +48,7 @@ public class EarnMoneyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
             case VIEW_TYPE_ITEM:
                 view = inflater.inflate(R.layout.list_item_earn_money, parent, false);
-                return new MyViewHolder(view);
+                return new MyViewHolder(view, new OnRewardTextChangeWatcher(), new OnSubmitClickListener());
 
             case VIEW_TYPE_FOOTER:
                 view = inflater.inflate(R.layout.footer_view_recycler_view_earn_money, parent, false);
@@ -70,21 +72,24 @@ public class EarnMoneyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                 }
                 if (!orderList.isEmpty() && myViewHolder != null) {
                     Order order = orderList.get(position);
-                    Glide.with(mContext)
+                    myViewHolder.rewardTextChangeWatcher.setPosition(position);
+                    myViewHolder.submitClickListener.setPosition(position);
+
+                    Glide.with(mContext.getApplicationContext())
                             .load(order.getProductImagePath())
                             .centerCrop()
                             .placeholder(R.drawable.default_productimage_xxhdpi_48dp)
                             .error(R.drawable.cancel_offer_36dp)
                             .into(myViewHolder.productImage);
 
-                    Glide.with(mContext)
+                    Glide.with(mContext.getApplicationContext())
                             .load(order.getShopperImagePath())
                             .centerCrop()
                             .placeholder(R.drawable.default_userimage_xhdpi_48dp)
                             .error(R.drawable.cancel_offer_36dp)
                             .into(myViewHolder.shopperImage);
 
-                    String reward = ((MyViewHolder) holder).rewardEditText.getText().toString();
+
 
                     myViewHolder.shopperName.setText(order.getShopperName());
                     myViewHolder.productTitle.setText(order.getProductName());
@@ -92,7 +97,8 @@ public class EarnMoneyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                     myViewHolder.deliverTo.setText(order.getDeliverTo());
                     myViewHolder.deliverBefore.setText(order.getDeliverBefore());
                     myViewHolder.productPrice.setText(order.getPrice());
-                    myViewHolder.submitOfferButton.setOnClickListener(new OnSubmitClickListener(myViewHolder));
+                    myViewHolder.rewardEditText.setText(order.getReward());
+
                 }
                 break;
 
@@ -104,7 +110,7 @@ public class EarnMoneyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
                     Log.d(TAG, "onBindViewHolder: " + e.getMessage());
                 }
 
-                footerViewHolder.loadMoreimageButton.setOnClickListener(new OnLoadMoreClickListener());
+                footerViewHolder.loadMoreImageButton.setOnClickListener(new OnLoadMoreClickListener());
                 break;
         }
 
@@ -126,6 +132,30 @@ public class EarnMoneyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     }
 
+    private  class OnRewardTextChangeWatcher implements TextWatcher{
+        int position;
+
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            orderList.get(position).setReward(s.toString());
+        }
+    }
+
     private class OnLoadMoreClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -134,26 +164,24 @@ public class EarnMoneyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
     private class OnSubmitClickListener implements View.OnClickListener {
-        private MyViewHolder vh;
+        private int position;
 
-        public OnSubmitClickListener(MyViewHolder vh) {
-            this.vh = vh;
+        public void setPosition(int position) {
+            this.position = position;
         }
 
         @Override
         public void onClick(View v) {
-            String price = vh.productPrice.getText().toString();
-            String reward = vh.rewardEditText.getText().toString();
-            containerFragment.onSubmitClick(price, reward);
+            containerFragment.onSubmitClick(position, orderList.get(position).getReward());
         }
     }
 
     public class FooterViewHolder extends RecyclerView.ViewHolder {
-        private ImageButton loadMoreimageButton;
+        private ImageButton loadMoreImageButton;
 
         public FooterViewHolder(@NonNull View itemView) {
             super(itemView);
-            loadMoreimageButton = itemView.findViewById(R.id.loadMoreImageButtonId);
+            loadMoreImageButton = itemView.findViewById(R.id.loadMoreImageButtonId);
         }
     }
 
@@ -169,13 +197,17 @@ public class EarnMoneyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
         Button submitOfferButton;
         EditText rewardEditText;
         ImageView shopperImage;
+        OnRewardTextChangeWatcher rewardTextChangeWatcher;
+        OnSubmitClickListener submitClickListener;
         //private TextView orderDateTime;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView,
+                            OnRewardTextChangeWatcher rewardTextChangeWatcher,
+                            OnSubmitClickListener submitClickListener) {
             super(itemView);
-            shopperName = itemView.findViewById(R.id.shopperNametextViewId);
+            shopperName = itemView.findViewById(R.id.shopperNameTextViewId);
             productTitle = itemView.findViewById(R.id.productTitleTextViewId);
-            deliverFrom = itemView.findViewById(R.id.deliverfromTextViewId);
+            deliverFrom = itemView.findViewById(R.id.deliverFromTextViewId);
             deliverTo = itemView.findViewById(R.id.deliverToTextViewid);
             deliverBefore = itemView.findViewById(R.id.deliverBeforeTextViewId);
             productPrice = itemView.findViewById(R.id.productPriceTextViewId);
@@ -183,6 +215,10 @@ public class EarnMoneyRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerV
             submitOfferButton = itemView.findViewById(R.id.submitOfferButtonId);
             rewardEditText = itemView.findViewById(R.id.rewardEditTextId);
             shopperImage = itemView.findViewById(R.id.displayImageViewId);
+            this.rewardTextChangeWatcher = rewardTextChangeWatcher;
+            this.submitClickListener = submitClickListener;
+            rewardEditText.addTextChangedListener(rewardTextChangeWatcher);
+            submitOfferButton.setOnClickListener(submitClickListener);
         }
     }
 

@@ -57,7 +57,7 @@
                 app:srcCompat="@drawable/default_productimage_xxhdpi_48dp" />
 
             <TextView
-                android:id="@+id/shopperNametextViewId"
+                android:id="@+id/shopperNameTextViewId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -114,7 +114,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/deliverToLabel" />
 
             <TextView
-                android:id="@+id/deliverfromTextViewId"
+                android:id="@+id/deliverFromTextViewId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"

@@ -12,6 +12,8 @@ public class Order {
     private String productImagePath;
     private String orderDateTime;
     private String shopperImagePath;
+    private String reward;
+
 
 
     public Order(String orderId, String shopperName, String productName, String deliverFrom, String deliverTo, String deliverBefore, String price, String orderImage, String orderDateTime, String shopperImagePath) {
@@ -26,6 +28,14 @@ public class Order {
         this.orderDateTime = orderDateTime;
         this.shopperImagePath = shopperImagePath;
 
+    }
+
+    public String getReward() {
+        return reward;
+    }
+
+    public void setReward(String reward) {
+        this.reward = reward;
     }
 
     public String getShopperImagePath() {

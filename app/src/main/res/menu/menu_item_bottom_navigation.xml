@@ -6,7 +6,7 @@
         android:icon="@drawable/twotone_home_black_48"
         android:title="@string/homeMenuItem" />
     <item
-        android:id="@+id/orderMenuItemID"
+        android:id="@+id/ordersMenuItemID"
         android:icon="@drawable/twotone_shopping_cart_black_48"
         android:title="@string/orderMenuItem" />
     <item

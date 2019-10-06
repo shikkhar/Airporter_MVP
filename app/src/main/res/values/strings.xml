@@ -1,4 +1,7 @@
 <resources>
+    <string name="facebook_app_id">538871880208658</string>
+    <string name="fb_login_protocol_scheme">fb538871880208658</string>
+
     <string name="app_name">Airporter</string>
     <string name="login">Login</string>
     <string name="email">Email</string>
@@ -28,4 +31,19 @@
     <string name="error_email_empty">Email field cannot be left empty</string>
     <string name="error_email_invalid">Invalid Email</string>
     <string name="error_password_empty">Password field cannot be left empty</string>
+    <string name="tab_sent_offers">Sent</string>
+    <string name="tab_received_offers">Received</string>
+    <string name="offer_submitted_by">Submitted By:</string>
+    <string name="reward_label">Reward:</string>
+    <string name="original_product_price">Product Price:</string>
+    <string name="offer_price">Offer Price:</string>
+    <string name="withdraw_offer">WITHDRAW</string>
+    <string name="modify_offer">MODIFY</string>
+    <string name="with">with</string>
+    <string name="type_message_here">Enter your message here...</string>
+    <string name="tab_item_requested">Requested</string>
+    <string name="tab_item_in_transit">In Transit</string>
+    <string name="tab_item_received">Received</string>
+    <string name="tab_item_delivered">Delivered</string>
+    <string name="logout">Logout</string>
 </resources>

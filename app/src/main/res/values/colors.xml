@@ -7,4 +7,8 @@
     <color name = "signUpScreenBackColor">#D73D3939</color>
     <color name="login_button_back">#883AEC3F</color>
     <color name="signup_cardView_back">#E0DEDE</color>
+    <color name="textRed">#C20047</color>
+    <color name="textGreen">#1DC200</color>
+    <color name="textYellow">#C29B00</color>
+    <color name="background_splash_screen">#D6000000</color>
 </resources>

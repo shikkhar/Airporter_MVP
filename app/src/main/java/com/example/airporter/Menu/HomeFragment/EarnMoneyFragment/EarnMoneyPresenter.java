@@ -40,6 +40,38 @@ public class EarnMoneyPresenter implements EarnMoneyContract {
         apiRequestManagerObject.fetchMoreOrders(lastOrderIdFetched, new OrderListFetchedCallback(mView), CONSTANTS.NetworkRequestTags.FETCH_ORDER_LIST);
     }
 
+    @Override
+    public void submitOffer(String orderId, String offerPrice) {
+        apiRequestManagerObject.submitOffer(orderId, offerPrice, new OnOfferSubmitCallback(mView), CONSTANTS.NetworkRequestTags.SUBMIT_OFFER);
+
+    }
+
+    private static class OnOfferSubmitCallback implements VolleySeverRequest.VolleyResponseCallback {
+        private WeakReference<EarnMoneyView> mView;
+
+        public OnOfferSubmitCallback(EarnMoneyView view) {
+            this.mView = new WeakReference<>(view);
+        }
+
+        @Override
+        public void onSuccess(JSONObject response) {
+            EarnMoneyView view = mView.get();
+
+            if (view != null) {
+                view.onOfferSubmitted(CONSTANTS.NetworRequestResponse.SUCCESS);
+            }
+        }
+
+        @Override
+        public void onFail(VolleyError error) {
+            EarnMoneyView view = mView.get();
+
+            if (view != null) {
+                view.onOfferSubmitted(CONSTANTS.NetworRequestResponse.FAIL);
+            }
+        }
+    }
+
     private static class OrderListFetchedCallback implements VolleySeverRequest.VolleyResponseCallback {
         private List<Order> orderList = new ArrayList<>();
         private WeakReference<EarnMoneyView> mView;
@@ -53,7 +85,7 @@ public class EarnMoneyPresenter implements EarnMoneyContract {
             try {
                 parseJSONResult(response);
                 EarnMoneyView view = mView.get();
-                if(view != null)
+                if (view != null)
                     view.onOrderListFetched(orderList);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -74,21 +106,21 @@ public class EarnMoneyPresenter implements EarnMoneyContract {
                 String price = orderArray.getJSONObject(x).getString("price");
                 String productImagePath = "http://admin.airporterinc.com" + orderArray.getJSONObject(x).getString("productImagePath");
                 String orderDateTime = orderArray.getJSONObject(x).getString("orderDateTime");
-                String shopperImagePath = "http://airporterinc.com" +  orderArray.getJSONObject(x).getString("shopperImagePath");
+                String shopperImagePath = "http://airporterinc.com" + orderArray.getJSONObject(x).getString("shopperImagePath");
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date parsedDate = dateFormat.parse(orderDateTime);
                 Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
 
                 //lastOrderIdDisplayed = orderId;
-                Order order = new Order(orderId, shopperName, productName, deliverFrom, deliverTo, deliverBefore, price, productImagePath , orderDateTime, shopperImagePath);
+                Order order = new Order(orderId, shopperName, productName, deliverFrom, deliverTo, deliverBefore, price, productImagePath, orderDateTime, shopperImagePath);
                 orderList.add(order);
             }
         }
 
         @Override
         public void onFail(VolleyError error) {
-           // Toast.makeText(appContext, error.getMessage(), Toast.LENGTH_SHORT).show();
+            // Toast.makeText(appContext, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }
