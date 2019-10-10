@@ -141,6 +141,17 @@
                 app:layout_constraintTop_toTopOf="@+id/productPriceLabel"
                 tools:text="@string/product_price" />
 
+            <TextView
+                android:id="@+id/labelClickToSeeOffers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/click_to_see_offers"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/productPriceTextViewId"
+                app:layout_constraintTop_toTopOf="@+id/productPriceTextViewId" />
+
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"

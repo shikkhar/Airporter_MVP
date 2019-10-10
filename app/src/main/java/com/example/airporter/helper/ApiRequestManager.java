@@ -1,6 +1,7 @@
 package com.example.airporter.helper;
 
 import com.example.airporter.AppController;
+import com.example.airporter.data.Messages;
 import com.example.airporter.data.Order;
 
 import java.util.HashMap;
@@ -238,7 +239,7 @@ public class ApiRequestManager {
         serverRequest.makePostRequest(url, params, requestTag);
     }
 
-    public void sendChatMessage(String fcmToken, String senderName, String messageToSend, String bidderId, String shopperId, VolleySeverRequest.VolleyResponseCallback responseCallback, String requestTag){
+    public void sendChatMessage(String fcmToken, String senderName, String messageToSend, Messages message, VolleySeverRequest.VolleyResponseCallback responseCallback, String requestTag){
 
         String userId = AppController.getInstance().getPreferenceManager().getUserId();
         String url = CONSTANTS.IpAddress + "fcm_test.php";
@@ -247,8 +248,11 @@ public class ApiRequestManager {
         params.put("title","New Message");
         params.put("body", senderName + " has messaged you");
         params.put("chatMessage",messageToSend);
-        params.put("bidderId", bidderId);
-        params.put("shopperId", shopperId);
+        params.put("orderId", message.getOrderId());
+        params.put("bidderId", message. getBidderId());
+        params.put("shopperId", message.getShopperId());
+        params.put("bidderName", message.getBidderName());
+        params.put("shopperName", message.getShopperName());
         params.put("senderId", userId);
 
         VolleySeverRequest serverRequest = new VolleySeverRequest(responseCallback);
