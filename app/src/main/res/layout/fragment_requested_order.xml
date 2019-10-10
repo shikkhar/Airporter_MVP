@@ -4,16 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:appContext=".MainActivity.MainActivity" >
+    tools:context=".Menu.OrdersFragment.RequestedOrderFragment.RequestedOrderFragment" >
 
-    <ImageView
-        android:id="@+id/splashScreenImageView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/background_splash_screen"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRequestedOrder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/airporter_logo" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:appContext=".Menu.HomeFragment.HomeFragment">
+
+    <!--<ImageButton
+        android:id="@+id/shopGloballyImageButtonId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="50dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/twotone_shopping_cart_black_48"
+        app:layout_constraintBottom_toTopOf="@+id/makeMoneyImageButtonId"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/shopGloballyTextViewId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="@string/shop_globally"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/shopGloballyImageButtonId"
+        app:layout_constraintEnd_toEndOf="@+id/shopGloballyImageButtonId"
+        app:layout_constraintTop_toTopOf="@+id/shopGloballyImageButtonId" />
+
+    <ImageButton
+        android:id="@+id/makeMoneyImageButtonId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="50dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/twotone_supervisor_account_black_48"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shopGloballyImageButtonId" />
+
+    <TextView
+        android:id="@+id/makeMioneyTextViewId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="@string/make_money"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/makeMoneyImageButtonId"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/makeMoneyImageButtonId" />-->
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/homevViewPagerId"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/homeTabLayoutId" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/homeTabLayoutId"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/shopTabId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab_shop" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/earnTabId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab_earn" />
+
+    </com.google.android.material.tabs.TabLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
