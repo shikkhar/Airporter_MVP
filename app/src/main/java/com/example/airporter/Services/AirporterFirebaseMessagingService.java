@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.volley.VolleyError;
 import com.example.airporter.AppController;
 import com.example.airporter.data.ChatMessage;
+import com.example.airporter.data.Messages;
 import com.example.airporter.helper.AirporterNotificationManager;
 import com.example.airporter.helper.ApiRequestManager;
 import com.example.airporter.helper.CONSTANTS;
@@ -39,14 +40,18 @@ public class AirporterFirebaseMessagingService extends FirebaseMessagingService 
         {
             String title = remoteMessage.getData().get("title");
             String body = remoteMessage.getData().get("body");
-            String message = remoteMessage.getData().get("chatMessage");
+            String messageText = remoteMessage.getData().get("chatMessage");
+            String orderId = remoteMessage.getData().get("orderId");
             String bidderId = remoteMessage.getData().get("bidderId");
             String shopperId = remoteMessage.getData().get("shopperId");
+            String bidderName = remoteMessage.getData().get("bidderName");
+            String shopperName = remoteMessage.getData().get("shopperName");
             String senderId = remoteMessage.getData().get("senderId");
 
-            ChatMessage chatMessage = new ChatMessage(message, bidderId, shopperId, senderId);
+            ChatMessage chatMessage = new ChatMessage(messageText, senderId);
             EventBus.getDefault().post(chatMessage);
 
+            Messages message = new Messages(orderId, bidderId, shopperId, bidderName, shopperName);
             /*Intent intent = new Intent(CONSTANTS.PUSH_MESSAGE);
             intent.putExtra("chatMessage", chatMessage);
             intent.putExtra("bidderId", bidderId);
@@ -55,7 +60,7 @@ public class AirporterFirebaseMessagingService extends FirebaseMessagingService 
 
             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);*/
 
-            AirporterNotificationManager.getInstance(getApplicationContext()).displayNotification(title,body);
+            AirporterNotificationManager.getInstance(getApplicationContext()).displayNotification(title,body, message);
 
         }
     }

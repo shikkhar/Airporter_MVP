@@ -10,5 +10,6 @@
     <color name="textRed">#C20047</color>
     <color name="textGreen">#1DC200</color>
     <color name="textYellow">#C29B00</color>
+    <color name="textOrange">#673AB7</color>
     <color name="background_splash_screen">#D6000000</color>
 </resources>

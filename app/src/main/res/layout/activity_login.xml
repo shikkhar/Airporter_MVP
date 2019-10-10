@@ -68,10 +68,10 @@
                 android:ems="10"
                 android:hint="@string/password"
                 android:inputType="textPersonName"
-                android:text="SMM12792!!"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/signUpEmaileditTextId" />
+                app:layout_constraintTop_toBottomOf="@+id/signUpEmaileditTextId"
+                tools:text="SMM12792!!" />
 
             <EditText
                 android:id="@+id/signUpEmaileditTextId"
@@ -83,10 +83,10 @@
                 android:ems="10"
                 android:hint="@string/email"
                 android:inputType="textPersonName"
-                android:text="shikkhar.pahwa@hotmail.com"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="shikkhar.pahwa@hotmail.com" />
 
             <ProgressBar
                 android:id="@+id/signinProgressBarId"

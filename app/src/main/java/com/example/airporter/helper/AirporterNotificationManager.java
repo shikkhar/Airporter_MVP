@@ -6,8 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 
-import com.example.airporter.MainActivity.MainActivity;
+import com.example.airporter.MenuModule.MessagesFragment.ChatMessagesActivity.ChatMessagesActivity;
 import com.example.airporter.R;
+import com.example.airporter.data.Messages;
 
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -28,7 +29,7 @@ public class AirporterNotificationManager {
         return mInstance;
     }
 
-    public void displayNotification(String title, String body) {
+    public void displayNotification(String title, String body, Messages message) {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(appContext, CONSTANTS.Notifications.CHANNEL_ID)
@@ -44,8 +45,8 @@ public class AirporterNotificationManager {
          *  But for your project you can customize it as you want
          * */
 
-        Intent resultIntent = new Intent(appContext, MainActivity.class);
-
+        Intent resultIntent = new Intent(appContext, ChatMessagesActivity.class);
+        resultIntent.putExtra("message", message);
         /*
          *  Now we will create a pending intent
          *  The method getActivity is taking 4 parameters
