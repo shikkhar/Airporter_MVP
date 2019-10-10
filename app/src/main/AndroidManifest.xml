@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LoginActivity.LoginActivity"></activity>
+        <activity android:name=".LoginModule.LoginActivity"></activity>
 
         <service android:name=".Services.AirporterFirebaseMessagingService">
             <intent-filter>
@@ -21,10 +21,10 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".Menu.MessagesFragment.ChatMessagesActivity.ChatMessagesActivity" />
-        <activity android:name=".Menu.OffersFragment.OffersReceivedFragment.OffersReceivedDetailsActivity.OffersReceivedDetailsActivity" />
-        <activity android:name=".Menu.MenuActivity" />
-        <activity android:name=".MainActivity.MainActivity">
+        <activity android:name=".MenuModule.MessagesFragment.ChatMessagesActivity.ChatMessagesActivity" />
+        <activity android:name=".MenuModule.OffersFragment.OffersReceivedFragment.OffersReceivedDetailsActivity.OffersReceivedDetailsActivity" />
+        <activity android:name=".MenuModule.MenuActivity" />
+        <activity android:name=".MainModule.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
