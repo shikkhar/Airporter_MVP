@@ -1,4 +1,4 @@
-package com.example.airporter.MenuModule.OrdersFragment;
+package com.example.airporter.MenuModule.OrdersFragmentModule;
 
 
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.airporter.MenuModule.OrdersFragment.DeliveredOrderFragment.DeliveredOrderFragment;
-import com.example.airporter.MenuModule.OrdersFragment.InTransitOrderFragment.InTransitOrderFragment;
-import com.example.airporter.MenuModule.OrdersFragment.ReceivedOrderFragment.ReceivedOrderFragment;
-import com.example.airporter.MenuModule.OrdersFragment.RequestedOrderFragment.RequestedOrderFragment;
+import com.example.airporter.MenuModule.OrdersFragmentModule.DeliveredOrderFragmentModule.DeliveredOrderFragment;
+import com.example.airporter.MenuModule.OrdersFragmentModule.InTransitOrderFragmentModule.InTransitOrderFragment;
+import com.example.airporter.MenuModule.OrdersFragmentModule.ReceivedOrderFragmentModule.ReceivedOrderFragment;
+import com.example.airporter.MenuModule.OrdersFragmentModule.RequestedOrderFragmentModule.RequestedOrderFragment;
 import com.example.airporter.R;
 import com.google.android.material.tabs.TabLayout;
 

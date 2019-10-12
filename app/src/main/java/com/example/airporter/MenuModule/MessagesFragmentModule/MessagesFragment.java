@@ -1,4 +1,4 @@
-package com.example.airporter.MenuModule.MessagesFragment;
+package com.example.airporter.MenuModule.MessagesFragmentModule;
 
 
 import android.content.Intent;
@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.airporter.MenuModule.MessagesFragment.ChatMessagesActivity.ChatMessagesActivity;
+import com.example.airporter.MenuModule.MessagesFragmentModule.ChatMessagesModule.ChatMessagesActivity;
 import com.example.airporter.R;
 import com.example.airporter.data.Messages;
 import com.example.airporter.helper.ApiRequestManager;

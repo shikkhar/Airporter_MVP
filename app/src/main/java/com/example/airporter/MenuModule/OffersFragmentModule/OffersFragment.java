@@ -1,4 +1,4 @@
-package com.example.airporter.MenuModule.OffersFragment;
+package com.example.airporter.MenuModule.OffersFragmentModule;
 
 
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.airporter.MenuModule.OffersFragment.OffersReceivedFragment.OffersReceivedFragment;
-import com.example.airporter.MenuModule.OffersFragment.OffersSentFragment.OffersSentFragment;
+import com.example.airporter.MenuModule.OffersFragmentModule.OffersReceivedFragmentModule.OffersReceivedFragment;
+import com.example.airporter.MenuModule.OffersFragmentModule.OffersSentFragmentModule.OffersSentFragment;
 import com.example.airporter.R;
 import com.google.android.material.tabs.TabLayout;
 

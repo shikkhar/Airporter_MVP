@@ -1,4 +1,4 @@
-package com.example.airporter.MenuModule.MessagesFragment;
+package com.example.airporter.MenuModule.MessagesFragmentModule;
 
 import android.view.LayoutInflater;
 import android.view.View;

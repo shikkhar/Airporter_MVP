@@ -1,4 +1,4 @@
-package com.example.airporter.MenuModule.HomeFragment.ShopFragment;
+package com.example.airporter.MenuModule.HomeFragmentModule.ShopFragment;
 
 
 import android.content.Context;
