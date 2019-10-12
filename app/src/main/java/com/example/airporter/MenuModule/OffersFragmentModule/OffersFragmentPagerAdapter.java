@@ -1,4 +1,4 @@
-package com.example.airporter.MenuModule.OrdersFragment;
+package com.example.airporter.MenuModule.OffersFragmentModule;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,14 +8,14 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
 
-public class OrderFragmentPagerAdapter extends FragmentPagerAdapter {
+public class OffersFragmentPagerAdapter extends FragmentPagerAdapter {
     private ArrayList<Fragment> fragmentList;
-    private ArrayList<String> tabTitleList;
+    private ArrayList<String> tabTitlesList;
 
-    public OrderFragmentPagerAdapter(@NonNull FragmentManager fm, int behavior, ArrayList<Fragment> fragmentList, ArrayList<String> tabTitleList) {
+    public OffersFragmentPagerAdapter(@NonNull FragmentManager fm, int behavior, ArrayList<Fragment> fragmentList, ArrayList<String> tabTitlesList) {
         super(fm, behavior);
         this.fragmentList = fragmentList;
-        this.tabTitleList = tabTitleList;
+        this.tabTitlesList = tabTitlesList;
     }
 
     @NonNull
@@ -27,7 +27,7 @@ public class OrderFragmentPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return tabTitleList.get(position);
+        return tabTitlesList.get(position);
     }
 
     @Override

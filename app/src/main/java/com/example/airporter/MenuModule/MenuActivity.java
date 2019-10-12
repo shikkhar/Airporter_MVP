@@ -12,10 +12,10 @@ import android.view.MenuItem;
 
 import com.example.airporter.AppController;
 import com.example.airporter.LoginModule.LoginActivity;
-import com.example.airporter.MenuModule.HomeFragment.HomeFragment;
-import com.example.airporter.MenuModule.MessagesFragment.MessagesFragment;
-import com.example.airporter.MenuModule.OffersFragment.OffersFragment;
-import com.example.airporter.MenuModule.OrdersFragment.OrdersFragment;
+import com.example.airporter.MenuModule.HomeFragmentModule.HomeFragment;
+import com.example.airporter.MenuModule.MessagesFragmentModule.MessagesFragment;
+import com.example.airporter.MenuModule.OffersFragmentModule.OffersFragment;
+import com.example.airporter.MenuModule.OrdersFragmentModule.OrdersFragment;
 import com.example.airporter.R;
 import com.example.airporter.helper.ApiRequestManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

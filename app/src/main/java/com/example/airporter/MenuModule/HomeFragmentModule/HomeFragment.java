@@ -1,4 +1,4 @@
-package com.example.airporter.MenuModule.HomeFragment;
+package com.example.airporter.MenuModule.HomeFragmentModule;
 
 
 import android.os.Bundle;
@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.airporter.MenuModule.HomeFragment.EarnMoneyFragment.EarnMoneyFragment;
-import com.example.airporter.MenuModule.HomeFragment.ShopFragment.ShopFragment;
+import com.example.airporter.MenuModule.HomeFragmentModule.EarnMoneyFragmentModule.EarnMoneyFragment;
+import com.example.airporter.MenuModule.HomeFragmentModule.ShopFragment.ShopFragment;
 import com.example.airporter.R;
 import com.google.android.material.tabs.TabLayout;
 
