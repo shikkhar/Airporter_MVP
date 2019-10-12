@@ -21,8 +21,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".MenuModule.MessagesFragment.ChatMessagesActivity.ChatMessagesActivity" />
-        <activity android:name=".MenuModule.OffersFragment.OffersReceivedFragment.OffersReceivedDetailsActivity.OffersReceivedDetailsActivity" />
+        <activity android:name=".MenuModule.MessagesFragmentModule.ChatMessagesModule.ChatMessagesActivity" />
+        <activity android:name=".MenuModule.OffersFragmentModule.OffersReceivedFragmentModule.OffersReceivedDetailsActivity.OffersReceivedDetailsActivity" />
         <activity android:name=".MenuModule.MenuActivity" />
         <activity android:name=".MainModule.MainActivity">
             <intent-filter>

@@ -1,4 +1,4 @@
-package com.example.airporter.MenuModule.MessagesFragment;
+package com.example.airporter.MenuModule.MessagesFragmentModule;
 
 import com.example.airporter.data.Messages;
 

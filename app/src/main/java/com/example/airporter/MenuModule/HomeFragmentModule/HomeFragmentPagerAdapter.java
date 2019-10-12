@@ -1,4 +1,4 @@
-package com.example.airporter.MenuModule.OffersFragment;
+package com.example.airporter.MenuModule.HomeFragmentModule;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,16 +6,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class OffersFragmentPagerAdapter extends FragmentPagerAdapter {
-    private ArrayList<Fragment> fragmentList;
-    private ArrayList<String> tabTitlesList;
+//TODO: Try switching super class to fragmentStatePagerAdapter for better memory utilization
+public class HomeFragmentPagerAdapter extends FragmentPagerAdapter{
 
-    public OffersFragmentPagerAdapter(@NonNull FragmentManager fm, int behavior, ArrayList<Fragment> fragmentList, ArrayList<String> tabTitlesList) {
+    private List<Fragment> fragmentList;
+    private List<String> tabTitles;
+
+    public HomeFragmentPagerAdapter(@NonNull FragmentManager fm, int behavior, List<Fragment> fragmentList, List<String> tabTitles) {
         super(fm, behavior);
         this.fragmentList = fragmentList;
-        this.tabTitlesList = tabTitlesList;
+        this.tabTitles = tabTitles;
     }
 
     @NonNull
@@ -27,7 +29,7 @@ public class OffersFragmentPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return tabTitlesList.get(position);
+        return tabTitles.get(position);
     }
 
     @Override

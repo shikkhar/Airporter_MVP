@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import androidx.core.app.NotificationCompat;
 
-import com.example.airporter.MenuModule.MessagesFragment.ChatMessagesActivity.ChatMessagesActivity;
+import com.example.airporter.MenuModule.MessagesFragmentModule.ChatMessagesModule.ChatMessagesActivity;
 import com.example.airporter.R;
 import com.example.airporter.data.Messages;
 
